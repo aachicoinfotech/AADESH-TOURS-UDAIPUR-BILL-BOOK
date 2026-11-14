@@ -47,13 +47,19 @@
         .header {
             text-align: center;
             border-bottom: 2px solid #000;
-            padding-bottom: 8px;
+            padding-bottom: 10px;
             margin-bottom: 15px;
         }
         .logo-img {
-            max-height: 70px;
+            max-height: 75px;
             width: auto;
             margin-bottom: 5px;
+        }
+        .header h2 {
+            margin: 2px 0;
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 1px;
         }
         .header p {
             margin: 3px 0;
@@ -61,29 +67,27 @@
             line-height: 1.4;
         }
 
-        .invoice-title-section {
+        .bill-details-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 10px;
             border-bottom: 1px solid #000;
             padding-bottom: 5px;
         }
-        .invoice-title {
-            font-weight: bold;
-            font-size: 16px;
-            letter-spacing: 1px;
-        }
 
-        .bill-info-table {
+        .main-info-table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 15px;
             font-size: 13px;
         }
-        .bill-info-table td {
-            padding: 4px;
+        .main-info-table td {
+            padding: 6px;
             vertical-align: top;
+            border: 1px solid #000;
         }
 
         .items-table {
@@ -114,7 +118,7 @@
             box-sizing: border-box;
         }
         textarea.item-desc {
-            height: 38px;
+            height: 40px;
             resize: vertical;
         }
 
@@ -124,6 +128,8 @@
             margin-top: 15px;
             font-size: 12px;
             gap: 20px;
+            border-top: 1px solid #000;
+            padding-top: 10px;
         }
         .bank-details, .terms-conditions {
             width: 48%;
@@ -139,7 +145,7 @@
 
         .signature-section {
             text-align: right;
-            margin-top: 25px;
+            margin-top: 20px;
             font-weight: bold;
             font-size: 14px;
         }
@@ -219,48 +225,60 @@
         <button class="btn btn-danger" onclick="clearForm()">🔄 New Bill</button>
     </div>
 
+    <!-- Header with Logo and Updated Address -->
     <div class="header">
         <img src="logo.jpg" alt="Logo" class="logo-img" onerror="this.style.display='none'">
+        <h2>AADESH TOURS UDAIPUR</h2>
         <p><strong>Office Address:</strong> 12 NB, Sector 8, Jadav Narsi, Opposite Srinath Travels, Udaipur (Raj) 313001</p>
         <p>Mob: 9602842390 &nbsp;|&nbsp; GSTIN: <input type="text" id="gstin" value="" placeholder="Enter GSTIN" style="width: 120px; display: inline-block;"></p>
     </div>
 
-    <div class="invoice-title-section">
-        <div style="font-size: 13px; font-weight: bold;">Bill Details</div>
-        <div class="invoice-title">INVOICE</div>
+    <!-- Bill Details & Category Bar -->
+    <div class="bill-details-bar">
+        <span>Bill Details</span>
+        <span style="font-size: 16px;">INVOICE</span>
     </div>
 
-    <table class="bill-info-table">
+    <table class="main-info-table">
         <tr>
-            <td style="width: 50%;">
-                <strong>Bill to</strong><br>
-                <input type="text" id="customerName" value="Shashi Kant Mishra Pernod Ricard India Pvt Ltd" style="width:92%; margin-bottom:4px; font-weight: bold;"><br>
-                <input type="text" id="customerPhone" value="9958692572" style="width:55%;">
+            <td style="width: 55%;">
+                <strong>Bill to</strong><br><br>
+                <input type="text" id="customerName" value="Shashi Kant Mishra Pernod Ricard India Pvt Ltd" style="width:95%; margin-bottom:6px; font-weight: bold;"><br>
+                <input type="text" id="customerPhone" value="9958692572" style="width:60%;">
             </td>
-            <td style="width: 50%;">
-                <table style="width:100%;">
+            <td style="width: 45%;">
+                <table style="width:100%; border:none;">
                     <tr>
-                        <td style="width: 35%;"><strong>Bill #:</strong></td>
-                        <td><input type="text" id="billNo" value="371" style="font-weight: bold;"></td>
+                        <td style="border:none; padding:3px; width: 40%;"><strong>Bill #:</strong></td>
+                        <td style="border:none; padding:3px;"><input type="text" id="billNo" value="371" style="font-weight: bold;"></td>
                     </tr>
                     <tr>
-                        <td><strong>Bill Date:</strong></td>
-                        <td><input type="date" id="billDate" value="2026-06-17"></td>
+                        <td style="border:none; padding:3px;"><strong>Bill Date:</strong></td>
+                        <td style="border:none; padding:3px;"><input type="date" id="billDate" value="2026-06-17"></td>
                     </tr>
                     <tr>
-                        <td><strong>Bill Type:</strong></td>
-                        <td>
-                            <select id="billType">
+                        <td style="border:none; padding:3px;"><strong>Category:</strong></td>
+                        <td style="border:none; padding:3px;">
+                            <select id="billCategory">
                                 <option value="Customer Copy" selected>Customer Copy</option>
                                 <option value="Office Copy">Office Copy</option>
+                                <option value="Cash Bill">Cash Bill</option>
+                                <option value="Credit Bill">Credit Bill</option>
+                                <option value="Tax Invoice">Tax Invoice</option>
+                                <option value="Quotation">Quotation</option>
                             </select>
                         </td>
+                    </tr>
+                    <tr>
+                        <td style="border:none; padding:3px;"><strong>Vehicle No:</strong></td>
+                        <td style="border:none; padding:3px;"><input type="text" id="vehicleNo" value="" placeholder="e.g. RJ27PA1234" style="font-weight: bold;"></td>
                     </tr>
                 </table>
             </td>
         </tr>
     </table>
 
+    <!-- Items Table -->
     <table class="items-table" id="itemsTable">
         <thead>
             <tr>
@@ -306,7 +324,7 @@
             </tr>
             <tr>
                 <td colspan="4" class="text-right"><strong>TOTAL AMOUNT:</strong></td>
-                <td id="grandTotal" class="text-right"><strong> 3,430</strong></td>
+                <td id="grandTotal" class="text-right"><strong>3,430</strong></td>
                 <td class="no-print"></td>
             </tr>
         </tfoot>
@@ -319,6 +337,7 @@
         <span style="font-size: 12px; font-weight: normal;">Signature</span>
     </div>
 
+    <!-- Footer Bank & Terms -->
     <div class="footer-grid">
         <div class="bank-details">
             <strong>Bank Details:</strong><br>
@@ -372,7 +391,7 @@
         });
 
         document.getElementById('subTotal').innerHTML = '<strong>₹' + subTotal.toLocaleString('en-IN') + '</strong>';
-        document.getElementById('grandTotal').innerHTML = '<strong> ' + subTotal.toLocaleString('en-IN') + '</strong>';
+        document.getElementById('grandTotal').innerHTML = '<strong>' + subTotal.toLocaleString('en-IN') + '</strong>';
     }
 
     function addRow(desc = '', qty = '1 Hrs', rate = 0) {
@@ -400,6 +419,7 @@
         document.getElementById('billNo').value = '';
         document.getElementById('customerName').value = '';
         document.getElementById('customerPhone').value = '';
+        document.getElementById('vehicleNo').value = '';
         document.getElementById('itemRows').innerHTML = '';
         addRow();
         calculateTotal();
@@ -430,7 +450,8 @@
             customerName: customerName || 'N/A',
             billDate: billDate,
             phone: document.getElementById('customerPhone').value,
-            type: document.getElementById('billType').value,
+            category: document.getElementById('billCategory').value,
+            vehicleNo: document.getElementById('vehicleNo').value,
             gstin: document.getElementById('gstin').value,
             total: grandTotal,
             items: items
@@ -460,11 +481,13 @@
 
         let html = '';
         savedBills.forEach((bill, index) => {
+            let catBadge = bill.category ? `[${bill.category}]` : '';
+            let vehText = bill.vehicleNo ? `| Gadi: ${bill.vehicleNo}` : '';
             html += `
                 <div class="saved-bill-item">
                     <div>
-                        <strong>Bill #${bill.billNo}</strong> - ${bill.customerName} (${bill.billDate})<br>
-                        <span style="color: #28a745; font-weight: bold;">Total: ${bill.total}</span>
+                        <strong>Bill #${bill.billNo}</strong> ${catBadge} - ${bill.customerName} ${vehText} (${bill.billDate})<br>
+                        <span style="color: #28a745; font-weight: bold;">Total: ₹${bill.total}</span>
                     </div>
                     <div style="display: flex; gap: 6px;">
                         <button class="btn btn-success" style="padding:4px 8px; font-size:12px;" onclick="viewBill(${index})">📂 View</button>
@@ -485,7 +508,8 @@
         document.getElementById('customerName').value = bill.customerName;
         document.getElementById('customerPhone').value = bill.phone || '';
         document.getElementById('billDate').value = bill.billDate;
-        document.getElementById('billType').value = bill.type || 'Customer Copy';
+        document.getElementById('billCategory').value = bill.category || 'Customer Copy';
+        document.getElementById('vehicleNo').value = bill.vehicleNo || '';
         document.getElementById('gstin').value = bill.gstin || '';
 
         let tbody = document.getElementById('itemRows');
@@ -501,16 +525,4 @@
         if (confirm('Kya aap is saved bill ko delete karna chahte hain?')) {
             let savedBills = JSON.parse(localStorage.getItem('atu_saved_bills')) || [];
             savedBills.splice(index, 1);
-            localStorage.setItem('atu_saved_bills', JSON.stringify(savedBills));
-            loadSavedBills();
-        }
-    }
-
-    window.onload = function() {
-        loadSavedBills();
-        calculateTotal();
-    };
-</script>
-
-</body>
-</html>
+  
