@@ -101,7 +101,7 @@
             background-color: #007bff;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 10px 15px;
             font-size: 14px;
             cursor: pointer;
             border-radius: 4px;
@@ -109,12 +109,36 @@
         }
         .btn-success { background-color: #28a745; }
         .btn-danger { background-color: #dc3545; }
+        .btn-warning { background-color: #ffc107; color: #000; }
         .btn:hover { opacity: 0.9; }
 
         input[type="text"], input[type="date"], select {
             padding: 5px;
             font-size: 13px;
             width: 95%;
+        }
+
+        .saved-bills-section {
+            margin-top: 30px;
+            background: #fff3cd;
+            padding: 15px;
+            border: 1px solid #ffeeba;
+            border-radius: 5px;
+        }
+        .saved-bills-section h3 {
+            margin-top: 0;
+            font-size: 16px;
+        }
+        .saved-bill-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
         }
 
         .app-footer-brand {
@@ -127,7 +151,7 @@
         }
 
         @media print {
-            .controls, .no-print {
+            .controls, .no-print, .saved-bills-section {
                 display: none;
             }
             body {
@@ -156,7 +180,9 @@
         <h3>Aadesh Tours Bill Generator</h3>
         <p style="margin: 5px 0; font-size: 12px; color: #333;">Powered by <strong>Aachico Infotech</strong> (ATU)</p>
         <button class="btn btn-success" onclick="addRow()">+ Add Item</button>
+        <button class="btn btn-warning" onclick="saveCurrentBill()">💾 Save Bill</button>
         <button class="btn" onclick="window.print()">🖨️ Print / Save PDF</button>
+        <button class="btn btn-danger" onclick="clearForm()">🔄 New Bill</button>
     </div>
 
     <!-- Header -->
@@ -216,7 +242,7 @@
         <tbody id="itemRows">
             <tr>
                 <td class="text-center row-num">1</td>
-                <td><textarea style="width:95%; height:40px; font-family:Arial;">Udaipur airport pickup field club drop Udaipur +parking&#10;15jun26</textarea></td>
+                <td><textarea class="item-desc" style="width:95%; height:40px; font-family:Arial;">Udaipur airport pickup field club drop Udaipur +parking&#10;15jun26</textarea></td>
                 <td><input type="number" class="qty" value="1" oninput="calculateTotal()"></td>
                 <td><input type="number" class="rate" value="830" oninput="calculateTotal()"></td>
                 <td class="amount text-right">830</td>
@@ -224,7 +250,7 @@
             </tr>
             <tr>
                 <td class="text-center row-num">2</td>
-                <td><textarea style="width:95%; height:40px; font-family:Arial;">Udaipur field club pickup Udaipur local industrial area visit field club drop 8hr80km&#10;16jun26</textarea></td>
+                <td><textarea class="item-desc" style="width:95%; height:40px; font-family:Arial;">Udaipur field club pickup Udaipur local industrial area visit field club drop 8hr80km&#10;16jun26</textarea></td>
                 <td><input type="number" class="qty" value="1" oninput="calculateTotal()"></td>
                 <td><input type="number" class="rate" value="1800" oninput="calculateTotal()"></td>
                 <td class="amount text-right">1,800</td>
@@ -232,7 +258,7 @@
             </tr>
             <tr>
                 <td class="text-center row-num">3</td>
-                <td><textarea style="width:95%; height:40px; font-family:Arial;">Udaipur field club to Udaipur airport drop&#10;16jun26</textarea></td>
+                <td><textarea class="item-desc" style="width:95%; height:40px; font-family:Arial;">Udaipur field club to Udaipur airport drop&#10;16jun26</textarea></td>
                 <td><input type="number" class="qty" value="1" oninput="calculateTotal()"></td>
                 <td><input type="number" class="rate" value="800" oninput="calculateTotal()"></td>
                 <td class="amount text-right">800</td>
@@ -279,6 +305,14 @@
         Signature
     </div>
 
+    <!-- Saved Bills History Section -->
+    <div class="saved-bills-section no-print">
+        <h3>📂 Saved Bills History (Purane Bills)</h3>
+        <div id="savedBillsList">
+            <p style="font-size: 13px; color: #666;">Koi bill abhi save nahi hai. 'Save Bill' button dabayein.</p>
+        </div>
+    </div>
+
     <!-- App Branding Footer -->
     <div class="app-footer-brand">
         ATU (Aadesh Tours Udaipur Bill Book) — Powered by Aachico Infotech
@@ -303,14 +337,14 @@
         document.getElementById('grandTotal').innerHTML = '<strong>₹' + subTotal.toLocaleString('en-IN') + '</strong>';
     }
 
-    function addRow() {
+    function addRow(desc = '', qty = 1, rate = 0) {
         let tbody = document.getElementById('itemRows');
         let newRow = document.createElement('tr');
         newRow.innerHTML = `
             <td class="text-center row-num"></td>
-            <td><textarea style="width:95%; height:40px; font-family:Arial;" placeholder="Item details"></textarea></td>
-            <td><input type="number" class="qty" value="1" oninput="calculateTotal()"></td>
-            <td><input type="number" class="rate" value="0" oninput="calculateTotal()"></td>
+            <td><textarea class="item-desc" style="width:95%; height:40px; font-family:Arial;" placeholder="Item details">${desc}</textarea></td>
+            <td><input type="number" class="qty" value="${qty}" oninput="calculateTotal()"></td>
+            <td><input type="number" class="rate" value="${rate}" oninput="calculateTotal()"></td>
             <td class="amount text-right">0</td>
             <td class="text-center no-print"><button class="btn btn-danger" style="padding:2px 6px;" onclick="deleteRow(this)">X</button></td>
         `;
@@ -323,7 +357,126 @@
         row.remove();
         calculateTotal();
     }
-</script>
 
-</body>
-</html>
+    function clearForm() {
+        document.getElementById('billNo').value = '';
+        document.getElementById('customerName').value = '';
+        document.getElementById('customerPhone').value = '';
+        document.getElementById('itemRows.innerHTML') = '';
+        document.getElementById('itemRows').innerHTML = '';
+        addRow();
+        calculateTotal();
+    }
+
+    // Save Bill to LocalStorage
+    function saveCurrentBill() {
+        let billNo = document.getElementById('billNo').value.trim();
+        let customerName = document.getElementById('customerName').value.trim();
+        let billDate = document.getElementById('billDate').value;
+        let grandTotal = document.getElementById('grandTotal').innerText;
+
+        if (!billNo) {
+            alert('Kripya Bill # dalein!');
+            return;
+        }
+
+        // Collect all items
+        let items = [];
+        document.querySelectorAll('#itemRows tr').forEach(row => {
+            items.push({
+                desc: row.querySelector('.item-desc').value,
+                qty: row.querySelector('.qty').value,
+                rate: row.querySelector('.rate').value
+            });
+        });
+
+        let billData = {
+            billNo: billNo,
+            customerName: customerName || 'N/A',
+            billDate: billDate,
+            phone: document.getElementById('customerPhone').value,
+            type: document.getElementById('billType').value,
+            gstin: document.getElementById('gstin').value,
+            total: grandTotal,
+            items: items
+        };
+
+        let savedBills = JSON.parse(localStorage.getItem('atu_saved_bills')) || [];
+        
+        // Check if bill number already exists, update it or add new
+        let existingIndex = savedBills.findIndex(b => b.billNo === billNo);
+        if (existingIndex >= 0) {
+            savedBills[existingIndex] = billData;
+        } else {
+            savedBills.unshift(billData); // Add to top
+        }
+
+        localStorage.setItem('atu_saved_bills', JSON.stringify(savedBills));
+        loadSavedBills();
+        alert('Bill successfully save ho gaya!');
+    }
+
+    // Load Saved Bills List
+    function loadSavedBills() {
+        let savedBills = JSON.parse(localStorage.getItem('atu_saved_bills')) || [];
+        let listContainer = document.getElementById('savedBillsList');
+
+        if (savedBills.length === 0) {
+            listContainer.innerHTML = '<p style="font-size: 13px; color: #666;">Koi bill abhi save nahi hai. "Save Bill" button dabayein.</p>';
+            return;
+        }
+
+        let html = '';
+        savedBills.forEach((bill, index) => {
+            html += `
+                <div class="saved-bill-item">
+                    <div>
+                        <strong>Bill #${bill.billNo}</strong> - ${bill.customerName} (${bill.billDate})<br>
+                        <span style="color: #28a745; font-weight: bold;">Total: ${bill.total}</span>
+                    </div>
+                    <div>
+                        <button class="btn btn-success" style="padding:4px 8px; font-size:12px;" onclick="viewBill(${index})">📂 View</button>
+                        <button class="btn btn-danger" style="padding:4px 8px; font-size:12px;" onclick="deleteSavedBill(${index})">🗑️ Delete</button>
+                    </div>
+                </div>
+            `;
+        });
+        listContainer.innerHTML = html;
+    }
+
+    // View specific saved bill
+    function viewBill(index) {
+        let savedBills = JSON.parse(localStorage.getItem('atu_saved_bills')) || [];
+        let bill = savedBills[index];
+        if (!bill) return;
+
+        document.getElementById('billNo').value = bill.billNo;
+        document.getElementById('customerName').value = bill.customerName;
+        document.getElementById('customerPhone').value = bill.phone || '';
+        document.getElementById('billDate').value = bill.billDate;
+        document.getElementById('billType').value = bill.type || 'Customer Copy';
+        document.getElementById('gstin').value = bill.gstin || '';
+
+        // Load items
+        let tbody = document.getElementById('itemRows');
+        tbody.innerHTML = '';
+        bill.items.forEach(item => {
+            addRow(item.desc, item.qty, item.rate);
+        });
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Delete saved bill
+    function deleteSavedBill(index) {
+        if (confirm('Kya aap is saved bill ko delete karna chahte hain?')) {
+            let savedBills = JSON.parse(localStorage.getItem('atu_saved_bills')) || [];
+            savedBills.splice(index, 1);
+            localStorage.setItem('atu_saved_bills', JSON.stringify(savedBills));
+            loadSavedBills();
+        }
+    }
+
+    // Load list on page start
+    window.onload = function
+    
