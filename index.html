@@ -9,15 +9,16 @@
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
             margin: 0;
-            padding: 20px;
+            padding: 15px;
             color: #000;
         }
         .container {
             max-width: 800px;
             margin: 0 auto;
             background: #fff;
-            padding: 30px;
+            padding: 25px;
             border: 1px solid #000;
+            box-sizing: border-box;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         .controls {
@@ -44,33 +45,27 @@
         .btn-warning { background-color: #ffc107; color: #000; }
         .btn:hover { opacity: 0.9; }
 
-        /* Header matching original billbook */
+        /* Clean Header */
         .header {
             text-align: center;
             border-bottom: 2px solid #000;
             padding-bottom: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
         .logo-img {
-            max-height: 75px;
+            max-height: 70px;
             width: auto;
             margin-bottom: 5px;
         }
-        .header h2 {
-            margin: 2px 0;
-            font-size: 20px;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
         .header h1 {
-            margin: 3px 0;
-            font-size: 24px;
+            margin: 5px 0;
+            font-size: 22px;
             font-weight: bold;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
         .header p {
             margin: 3px 0;
-            font-size: 12.5px;
+            font-size: 12px;
             line-height: 1.4;
         }
 
@@ -93,7 +88,7 @@
             font-size: 13px;
         }
         .bill-info-table td {
-            padding: 6px;
+            padding: 8px;
             vertical-align: top;
             border: 1px solid #000;
         }
@@ -119,15 +114,16 @@
 
         input[type="text"], input[type="date"], input[type="number"], select, textarea {
             border: 1px solid #ccc;
-            padding: 4px 6px;
+            padding: 6px 8px;
             font-size: 13px;
             font-family: Arial, sans-serif;
-            width: 95%;
+            width: 100%;
             background: #fff;
             box-sizing: border-box;
+            border-radius: 3px;
         }
         textarea.item-desc {
-            height: 40px;
+            height: 45px;
             resize: vertical;
         }
 
@@ -150,7 +146,7 @@
             justify-content: space-between;
             margin-top: 15px;
             font-size: 12px;
-            gap: 20px;
+            gap: 15px;
             border-top: 1px solid #000;
             padding-top: 10px;
         }
@@ -235,15 +231,12 @@
         <button class="btn btn-danger" onclick="clearForm()">🔄 New Bill</button>
     </div>
 
-    <!-- Header matching original billbook -->
+    <!-- Clean Header -->
     <div class="header">
         <img src="logo.jpg" alt="Logo" class="logo-img" onerror="this.style.display='none'">
-        <h2>AADESH</h2>
-        <h2>ADESH TOURS</h2>
-        <h2>UDAIPUR</h2>
         <h1>AADESH TOURS UDAIPUR</h1>
         <p><strong>Office Address:</strong> 12 NB, Sector 8, Jadav Narsi, Opposite Srinath Travels, Udaipur (Raj) 313001[span_5](start_span)[span_5](end_span)</p>
-        <p>Mob: 9602842390 &nbsp;|&nbsp; GSTIN: <input type="text" id="gstin" value="" placeholder="Enter GSTIN" style="width: 120px; display: inline-block;"></p>
+        <p>Mob: 9602842390 &nbsp;|&nbsp; GSTIN: <input type="text" id="gstin" value="" placeholder="Enter GSTIN" style="width: 130px; display: inline-block; padding: 2px 4px;"></p>
     </div>
 
     <div class="invoice-bar">
@@ -251,27 +244,27 @@
         <span style="font-size: 16px;">INVOICE</span>
     </div>
 
-    <!-- Bill to & Bill Meta Details -->
+    <!-- Bill to & Bill Meta Details (Proper Width Fix) -->
     <table class="bill-info-table">
         <tr>
-            <td style="width: 55%;">
-                <strong>Bill to</strong><br><br>
-                <input type="text" id="customerName" value="Shashi Kant Mishra Pernod Ricard India Pvt Ltd" style="width:95%; margin-bottom:6px; font-weight: bold;"><br>
-                <input type="text" id="customerPhone" value="9958692572" style="width:60%;">
+            <td style="width: 50%;">
+                <strong>Bill to:</strong><br><br>
+                <input type="text" id="customerName" value="Shashi Kant Mishra Pernod Ricard India Pvt Ltd" style="margin-bottom:6px; font-weight: bold;"><br>
+                <input type="text" id="customerPhone" value="9958692572">
             </td>
-            <td style="width: 45%;">
+            <td style="width: 50%;">
                 <table style="width:100%; border:none;">
                     <tr>
-                        <td style="border:none; padding:3px; width: 40%;"><strong>Bill #:</strong></td>
-                        <td style="border:none; padding:3px;"><input type="text" id="billNo" value="371" style="font-weight: bold;"></td>
+                        <td style="border:none; padding:4px; width: 40%;"><strong>Bill #:</strong></td>
+                        <td style="border:none; padding:4px;"><input type="text" id="billNo" value="371" style="font-weight: bold;"></td>
                     </tr>
                     <tr>
-                        <td style="border:none; padding:3px;"><strong>Bill Date:</strong></td>
-                        <td style="border:none; padding:3px;"><input type="date" id="billDate" value="2026-06-17"></td>
+                        <td style="border:none; padding:4px;"><strong>Bill Date:</strong></td>
+                        <td style="border:none; padding:4px;"><input type="date" id="billDate" value="2026-06-17"></td>
                     </tr>
                     <tr>
-                        <td style="border:none; padding:3px;"><strong>Category:</strong></td>
-                        <td style="border:none; padding:3px;">
+                        <td style="border:none; padding:4px;"><strong>Category:</strong></td>
+                        <td style="border:none; padding:4px;">
                             <select id="billCategory">
                                 <option value="Customer Copy" selected>Customer Copy</option>
                                 <option value="Office Copy">Office Copy</option>
@@ -283,8 +276,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="border:none; padding:3px;"><strong>Vehicle No:</strong></td>
-                        <td style="border:none; padding:3px;"><input type="text" id="vehicleNo" value="" placeholder="e.g. RJ27PA1234" style="font-weight: bold;"></td>
+                        <td style="border:none; padding:4px;"><strong>Vehicle No:</strong></td>
+                        <td style="border:none; padding:4px;"><input type="text" id="vehicleNo" value="" placeholder="e.g. RJ27PA1234" style="font-weight: bold;"></td>
                     </tr>
                 </table>
             </td>
@@ -295,11 +288,11 @@
     <table class="items-table" id="itemsTable">
         <thead>
             <tr>
-                <th style="width: 8%;">No</th>
-                <th style="width: 52%;">Item Name</th>
-                <th style="width: 12%;">Qty</th>
-                <th style="width: 13%;">Rate</th>
-                <th style="width: 15%;">Amount</th>
+                <th style="width: 7%;">No</th>
+                <th style="width: 48%;">Item Name</th>
+                <th style="width: 13%;">Qty</th>
+                <th style="width: 14%;">Rate</th>
+                <th style="width: 18%;">Amount</th>
                 <th class="no-print" style="width: 10%; text-align: center;">Action</th>
             </tr>
         </thead>
@@ -337,7 +330,7 @@
             </tr>
             <tr>
                 <td colspan="4" class="text-right"><strong>Toll / Parking / Border Tax / Extra:</strong></td>
-                <td class="text-right"><input type="number" id="extraCharges" value="0" oninput="calculateTotal()" style="width: 90px; text-align: right;"></td>
+                <td class="text-right"><input type="number" id="extraCharges" value="0" oninput="calculateTotal()" style="text-align: right;"></td>
                 <td class="no-print"></td>
             </tr>
             <tr>
@@ -412,7 +405,7 @@
         let grandTotal = subTotal + extra;
 
         document.getElementById('subTotal').innerHTML = '<strong>₹' + subTotal.toLocaleString('en-IN') + '</strong>';
-        document.getElementById('grandTotal').innerHTML = '<strong>' + grandTotal.toLocaleString('en-IN') + '</strong>';
+        document.getElementById('grandTotal').innerHTML = '<strong>₹' + grandTotal.toLocaleString('en-IN') + '</strong>';
     }
 
     function addRow(desc = '', qty = '1 Hrs', rate = 0) {
@@ -514,4 +507,9 @@
                     </div>
                     <div style="display: flex; gap: 6px;">
                         <button class="btn btn-success" style="padding:4px 8px; font-size:12px;" onclick="viewBill(${index})">📂 View</button>
-                        <button class="btn btn-dang
+                        <button class="btn btn-danger" style="padding:4px 8px; font-size:12px;" onclick="deleteSavedBill(${index})">🗑️ Delete</button>
+                    </div>
+                </div>
+            `;
+        });
+        listContainer.innerH
