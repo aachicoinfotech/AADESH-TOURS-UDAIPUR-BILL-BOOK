@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aadesh Tours Udaipur - Bill Generator</title>
+    <title>Aadesh Tours Udaipur - Billbook</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,467 +16,85 @@
             max-width: 800px;
             margin: 0 auto;
             background: #fff;
-            padding: 25px;
-            border: 1px solid #ccc;
+            padding: 30px;
+            border: 1px solid #000;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        .header {
-            text-align: center;
-            border-bottom: 2px solid #000;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 24px;
-            font-weight: bold;
-        }
-        .header p {
-            margin: 3px 0;
-            font-size: 13px;
-        }
-        .powered-by {
-            font-size: 12px;
-            font-style: italic;
-            color: #555;
-            margin-top: 5px;
-        }
-        .invoice-title {
-            text-align: right;
-            font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-        .bill-info-table, .items-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 15px;
-        }
-        .bill-info-table td {
-            padding: 5px;
-            font-size: 14px;
-            vertical-align: top;
-        }
-        .items-table th, .items-table td {
-            border: 1px solid #000;
-            padding: 8px;
-            text-align: left;
-            font-size: 13px;
-        }
-        .items-table th {
-            background-color: #eee;
-        }
-        .text-right {
-            text-align: right;
-        }
-        .text-center {
-            text-align: center;
-        }
-        .footer-section {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            font-size: 13px;
-        }
-        .bank-details, .terms-conditions {
-            width: 48%;
-        }
-        .terms-conditions ul {
-            margin: 0;
-            padding-left: 15px;
-        }
-        .signature {
-            text-align: right;
-            margin-top: 30px;
-            font-weight: bold;
-        }
+        /* Top Action Controls */
         .controls {
             margin-bottom: 20px;
             background: #e9ecef;
-            padding: 15px;
+            padding: 12px;
             border-radius: 5px;
             text-align: center;
+            border: 1px solid #ced4da;
         }
         .btn {
             background-color: #007bff;
             color: white;
             border: none;
-            padding: 10px 15px;
-            font-size: 14px;
+            padding: 8px 14px;
+            font-size: 13px;
             cursor: pointer;
             border-radius: 4px;
-            margin: 5px;
+            margin: 4px;
+            font-weight: bold;
         }
         .btn-success { background-color: #28a745; }
         .btn-danger { background-color: #dc3545; }
         .btn-warning { background-color: #ffc107; color: #000; }
         .btn:hover { opacity: 0.9; }
 
-        input[type="text"], input[type="date"], select {
-            padding: 5px;
-            font-size: 13px;
-            width: 95%;
+        /* Bill Header matching original */
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #000;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+        .logo-img {
+            max-height: 75px;
+            width: auto;
+            margin-bottom: 5px;
+        }
+        .header p {
+            margin: 3px 0;
+            font-size: 12.5px;
+            line-height: 1.4;
         }
 
-        .saved-bills-section {
-            margin-top: 30px;
-            background: #fff3cd;
-            padding: 15px;
-            border: 1px solid #ffeeba;
-            border-radius: 5px;
-        }
-        .saved-bills-section h3 {
-            margin-top: 0;
-            font-size: 16px;
-        }
-        .saved-bill-item {
+        .invoice-title-section {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #fff;
-            padding: 8px 12px;
-            margin-bottom: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 5px;
+        }
+        .invoice-title {
+            font-weight: bold;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+        /* Bill Info Table */
+        .bill-info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
             font-size: 13px;
         }
-
-        .app-footer-brand {
-            text-align: center;
-            margin-top: 25px;
-            font-size: 11px;
-            color: #777;
-            border-top: 1px dashed #ccc;
-            padding-top: 10px;
+        .bill-info-table td {
+            padding: 4px;
+            vertical-align: top;
         }
 
-        @media print {
-            .controls, .no-print, .saved-bills-section {
-                display: none;
-            }
-            body {
-                background: none;
-                padding: 0;
-            }
-            .container {
-                border: none;
-                box-shadow: none;
-                padding: 0;
-                width: 100%;
-            }
-            input, select {
-                border: none;
-                background: transparent;
-                appearance: none;
-            }
+        /* Items Table matching original */
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
         }
-    </style>
-</head>
-<body>
+        .items-table th, .items-table td {
 
-<div class="container">
-    <!-- Controls for Input & Print -->
-    <div class="controls no-print">
-        <h3>Aadesh Tours Bill Generator</h3>
-        <p style="margin: 5px 0; font-size: 12px; color: #333;">Powered by <strong>Aachico Infotech</strong> (ATU)</p>
-        <button class="btn btn-success" onclick="addRow()">+ Add Item</button>
-        <button class="btn btn-warning" onclick="saveCurrentBill()">💾 Save Bill</button>
-        <button class="btn" onclick="window.print()">🖨️ Print / Save PDF</button>
-        <button class="btn btn-danger" onclick="clearForm()">🔄 New Bill</button>
-    </div>
-
-    <!-- Header -->
-    <div class="header">
-        <h1>AADESH TOURS UDAIPUR</h1>
-        <p>j304 Shivam residency dwarkapuri Govardhan Vilas Sector 14, UDAIPUR RAJASTHAN 313001</p>
-        <p>Mob: 9602842390 | GSTIN: <input type="text" id="gstin" value="" placeholder="Enter GSTIN" style="width: 150px; display: inline-block;"></p>
-        <div class="powered-by">Powered by Aachico Infotech</div>
-    </div>
-
-    <div class="invoice-title">INVOICE</div>
-
-    <!-- Bill Details Table -->
-    <table class="bill-info-table">
-        <tr>
-            <td style="width: 50%;">
-                <strong>Bill to:</strong><br>
-                <input type="text" id="customerName" value="Shashi Kant Mishra Pernod Ricard India Pvt Ltd" style="width:90%; margin-bottom:5px;"><br>
-                <input type="text" id="customerPhone" value="9958692572" style="width:50%;">
-            </td>
-            <td style="width: 50%;">
-                <table style="width:100%;">
-                    <tr>
-                        <td><strong>Bill #:</strong></td>
-                        <td><input type="text" id="billNo" value="371"></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Bill Date:</strong></td>
-                        <td><input type="date" id="billDate" value="2026-06-17"></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Bill Type:</strong></td>
-                        <td>
-                            <select id="billType">
-                                <option value="Customer Copy" selected>Customer Copy</option>
-                                <option value="Office Copy">Office Copy</option>
-                            </select>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-
-    <!-- Items Table -->
-    <table class="items-table" id="itemsTable">
-        <thead>
-            <tr>
-                <th style="width: 8%;">No</th>
-                <th style="width: 52%;">Item Name & Description</th>
-                <th style="width: 12%;">Qty</th>
-                <th style="width: 13%;">Rate</th>
-                <th style="width: 15%;">Amount</th>
-                <th class="no-print" style="width: 10%;">Action</th>
-            </tr>
-        </thead>
-        <tbody id="itemRows">
-            <tr>
-                <td class="text-center row-num">1</td>
-                <td><textarea class="item-desc" style="width:95%; height:40px; font-family:Arial;">Udaipur airport pickup field club drop Udaipur +parking&#10;15jun26</textarea></td>
-                <td><input type="number" class="qty" value="1" oninput="calculateTotal()"></td>
-                <td><input type="number" class="rate" value="830" oninput="calculateTotal()"></td>
-                <td class="amount text-right">830</td>
-                <td class="text-center no-print"><button class="btn btn-danger" style="padding:2px 6px;" onclick="deleteRow(this)">X</button></td>
-            </tr>
-            <tr>
-                <td class="text-center row-num">2</td>
-                <td><textarea class="item-desc" style="width:95%; height:40px; font-family:Arial;">Udaipur field club pickup Udaipur local industrial area visit field club drop 8hr80km&#10;16jun26</textarea></td>
-                <td><input type="number" class="qty" value="1" oninput="calculateTotal()"></td>
-                <td><input type="number" class="rate" value="1800" oninput="calculateTotal()"></td>
-                <td class="amount text-right">1,800</td>
-                <td class="text-center no-print"><button class="btn btn-danger" style="padding:2px 6px;" onclick="deleteRow(this)">X</button></td>
-            </tr>
-            <tr>
-                <td class="text-center row-num">3</td>
-                <td><textarea class="item-desc" style="width:95%; height:40px; font-family:Arial;">Udaipur field club to Udaipur airport drop&#10;16jun26</textarea></td>
-                <td><input type="number" class="qty" value="1" oninput="calculateTotal()"></td>
-                <td><input type="number" class="rate" value="800" oninput="calculateTotal()"></td>
-                <td class="amount text-right">800</td>
-                <td class="text-center no-print"><button class="btn btn-danger" style="padding:2px 6px;" onclick="deleteRow(this)">X</button></td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="4" class="text-right"><strong>Sub Total:</strong></td>
-                <td id="subTotal" class="text-right"><strong>₹3,430</strong></td>
-                <td class="no-print"></td>
-            </tr>
-            <tr>
-                <td colspan="4" class="text-right"><strong>TOTAL AMOUNT:</strong></td>
-                <td id="grandTotal" class="text-right"><strong>₹3,430</strong></td>
-                <td class="no-print"></td>
-            </tr>
-        </tfoot>
-    </table>
-
-    <!-- Footer Details -->
-    <div class="footer-section">
-        <div class="bank-details">
-            <strong>Bank Details:</strong><br>
-            AADESH TOURS<br>
-            A/C 44936542535 | IFSC SBIN0016178<br>
-            State Bank of India, GOVARDHAN VILAS UDAIPUR<br>
-            CHETAN NATH | PAN: BUYPN7082C
-        </div>
-        <div class="terms-conditions">
-            <strong>Terms & Conditions:</strong>
-            <ul>
-                <li>Toll Parking Border Tax No Entry Charges Pay By Party</li>
-                <li>Driver Allowance 300/-Extra</li>
-                <li>Per Day Running 300/-Km</li>
-                <li>All Subject To Udaipur Jurisdiction Only</li>
-                <li>E&O.E</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="signature">
-        चेतन<br>
-        Signature
-    </div>
-
-    <!-- Saved Bills History Section -->
-    <div class="saved-bills-section no-print">
-        <h3>📂 Saved Bills History (Purane Bills)</h3>
-        <div id="savedBillsList">
-            <p style="font-size: 13px; color: #666;">Koi bill abhi save nahi hai. 'Save Bill' button dabayein.</p>
-        </div>
-    </div>
-
-    <!-- App Branding Footer -->
-    <div class="app-footer-brand">
-        ATU (Aadesh Tours Udaipur Bill Book) — Powered by Aachico Infotech
-    </div>
-</div>
-
-<script>
-    function calculateTotal() {
-        let rows = document.querySelectorAll('#itemRows tr');
-        let subTotal = 0;
-
-        rows.forEach((row, index) => {
-            row.querySelector('.row-num').innerText = index + 1;
-            let qty = parseFloat(row.querySelector('.qty').value) || 0;
-            let rate = parseFloat(row.querySelector('.rate').value) || 0;
-            let amt = qty * rate;
-            row.querySelector('.amount').innerText = amt.toLocaleString('en-IN');
-            subTotal += amt;
-        });
-
-        document.getElementById('subTotal').innerHTML = '<strong>₹' + subTotal.toLocaleString('en-IN') + '</strong>';
-        document.getElementById('grandTotal').innerHTML = '<strong>₹' + subTotal.toLocaleString('en-IN') + '</strong>';
-    }
-
-    function addRow(desc = '', qty = 1, rate = 0) {
-        let tbody = document.getElementById('itemRows');
-        let newRow = document.createElement('tr');
-        newRow.innerHTML = `
-            <td class="text-center row-num"></td>
-            <td><textarea class="item-desc" style="width:95%; height:40px; font-family:Arial;" placeholder="Item details">${desc}</textarea></td>
-            <td><input type="number" class="qty" value="${qty}" oninput="calculateTotal()"></td>
-            <td><input type="number" class="rate" value="${rate}" oninput="calculateTotal()"></td>
-            <td class="amount text-right">0</td>
-            <td class="text-center no-print"><button class="btn btn-danger" style="padding:2px 6px;" onclick="deleteRow(this)">X</button></td>
-        `;
-        tbody.appendChild(newRow);
-        calculateTotal();
-    }
-
-    function deleteRow(btn) {
-        let row = btn.closest('tr');
-        row.remove();
-        calculateTotal();
-    }
-
-    function clearForm() {
-        document.getElementById('billNo').value = '';
-        document.getElementById('customerName').value = '';
-        document.getElementById('customerPhone').value = '';
-        document.getElementById('itemRows.innerHTML') = '';
-        document.getElementById('itemRows').innerHTML = '';
-        addRow();
-        calculateTotal();
-    }
-
-    // Save Bill to LocalStorage
-    function saveCurrentBill() {
-        let billNo = document.getElementById('billNo').value.trim();
-        let customerName = document.getElementById('customerName').value.trim();
-        let billDate = document.getElementById('billDate').value;
-        let grandTotal = document.getElementById('grandTotal').innerText;
-
-        if (!billNo) {
-            alert('Kripya Bill # dalein!');
-            return;
-        }
-
-        // Collect all items
-        let items = [];
-        document.querySelectorAll('#itemRows tr').forEach(row => {
-            items.push({
-                desc: row.querySelector('.item-desc').value,
-                qty: row.querySelector('.qty').value,
-                rate: row.querySelector('.rate').value
-            });
-        });
-
-        let billData = {
-            billNo: billNo,
-            customerName: customerName || 'N/A',
-            billDate: billDate,
-            phone: document.getElementById('customerPhone').value,
-            type: document.getElementById('billType').value,
-            gstin: document.getElementById('gstin').value,
-            total: grandTotal,
-            items: items
-        };
-
-        let savedBills = JSON.parse(localStorage.getItem('atu_saved_bills')) || [];
         
-        // Check if bill number already exists, update it or add new
-        let existingIndex = savedBills.findIndex(b => b.billNo === billNo);
-        if (existingIndex >= 0) {
-            savedBills[existingIndex] = billData;
-        } else {
-            savedBills.unshift(billData); // Add to top
-        }
-
-        localStorage.setItem('atu_saved_bills', JSON.stringify(savedBills));
-        loadSavedBills();
-        alert('Bill successfully save ho gaya!');
-    }
-
-    // Load Saved Bills List
-    function loadSavedBills() {
-        let savedBills = JSON.parse(localStorage.getItem('atu_saved_bills')) || [];
-        let listContainer = document.getElementById('savedBillsList');
-
-        if (savedBills.length === 0) {
-            listContainer.innerHTML = '<p style="font-size: 13px; color: #666;">Koi bill abhi save nahi hai. "Save Bill" button dabayein.</p>';
-            return;
-        }
-
-        let html = '';
-        savedBills.forEach((bill, index) => {
-            html += `
-                <div class="saved-bill-item">
-                    <div>
-                        <strong>Bill #${bill.billNo}</strong> - ${bill.customerName} (${bill.billDate})<br>
-                        <span style="color: #28a745; font-weight: bold;">Total: ${bill.total}</span>
-                    </div>
-                    <div>
-                        <button class="btn btn-success" style="padding:4px 8px; font-size:12px;" onclick="viewBill(${index})">📂 View</button>
-                        <button class="btn btn-danger" style="padding:4px 8px; font-size:12px;" onclick="deleteSavedBill(${index})">🗑️ Delete</button>
-                    </div>
-                </div>
-            `;
-        });
-        listContainer.innerHTML = html;
-    }
-
-    // View specific saved bill
-    function viewBill(index) {
-        let savedBills = JSON.parse(localStorage.getItem('atu_saved_bills')) || [];
-        let bill = savedBills[index];
-        if (!bill) return;
-
-        document.getElementById('billNo').value = bill.billNo;
-        document.getElementById('customerName').value = bill.customerName;
-        document.getElementById('customerPhone').value = bill.phone || '';
-        document.getElementById('billDate').value = bill.billDate;
-        document.getElementById('billType').value = bill.type || 'Customer Copy';
-        document.getElementById('gstin').value = bill.gstin || '';
-
-        // Load items
-        let tbody = document.getElementById('itemRows');
-        tbody.innerHTML = '';
-        bill.items.forEach(item => {
-            addRow(item.desc, item.qty, item.rate);
-        });
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // Delete saved bill
-    function deleteSavedBill(index) {
-        if (confirm('Kya aap is saved bill ko delete karna chahte hain?')) {
-            let savedBills = JSON.parse(localStorage.getItem('atu_saved_bills')) || [];
-            savedBills.splice(index, 1);
-            localStorage.setItem('atu_saved_bills', JSON.stringify(savedBills));
-            loadSavedBills();
-        }
-    }
-
-    // Load list on page start
-    window.onload = function
-    
